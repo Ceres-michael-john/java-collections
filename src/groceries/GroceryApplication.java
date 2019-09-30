@@ -3,7 +3,6 @@ package groceries;
 import util.Input;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GroceryApplication {
     private static Input input = new Input();
@@ -34,16 +33,17 @@ public class GroceryApplication {
     public static void checkAddNewItem(ArrayList<String> categories, ArrayList<GroceryItem> groceryList) {
         if (input.yesNo("Would you like to add a new item?")) {
             addNewItem(categories, groceryList);
-            checkAddNewItem(categories, groceryList);
         } else {
-            // call displayFinalList method
-            System.out.println("displaying final list...");
+            displayFinalList(groceryList, categories);
         }
     }
 
     public static void addNewItem(ArrayList<String> categories, ArrayList<GroceryItem> groceryList) {
         String userCategory = getUserCategory(categories);
-        System.out.println("userCategory = " + userCategory);
+         String itemName = getItemName();
+         int itemQuantity = getQuantity();
+         groceryList.add(new GroceryItem(itemName, itemQuantity, userCategory));
+        checkAddNewItem(categories, groceryList);
     }
 
     public static String getUserCategory(ArrayList<String> categories) {
@@ -71,6 +71,39 @@ public class GroceryApplication {
             default :
                 return "Other";
         }
+    }
+    
+    public static String getItemName(){
+        return input.getString("What is the name of the new item?");
+    }
+    
+    public static int getQuantity(){
+        return input.getInt("How many of the item do you need?");
+    }
+
+    public static void displayFinalList(ArrayList<GroceryItem> groceryList, ArrayList<String> categories){
+
+        for(String category : categories){
+         ArrayList<String> nameHolderArray = new ArrayList<>();
+         ArrayList<Integer> quantHolderArray = new ArrayList<>();
+        for (int y = 0; y < groceryList.size(); y++){
+           if (category.equals(groceryList.get(y).getCategory())){
+               nameHolderArray.add(groceryList.get(y).getName());
+               quantHolderArray.add(groceryList.get(y).getQuantity());
+           }
+        }
+        nameHolderArray.sort(String::compareToIgnoreCase);
+
+            System.out.println(" -- " + category + " -- ");
+            for (int z = 0; z < nameHolderArray.size(); z++){
+                System.out.println(nameHolderArray.get(z) + ": " + quantHolderArray.get(z));
+            }
+
+        }
+
+        System.out.println("");
+        System.out.println("Have a nice day!!!");
+
     }
 
 }
