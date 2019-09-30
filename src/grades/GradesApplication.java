@@ -61,14 +61,28 @@ public class GradesApplication {
         }
         System.out.println("\n");
         processUserChoice(input.getString("What student would you like to see more information on?"), students);
+        checkContinue(students);
     }
 
     private static void processUserChoice(String userChoice, HashMap<String, Student> students) {
         if (students.containsKey(userChoice)) {
-            System.out.println("userChoice = " + userChoice);;
+            System.out.format("Name: %s - GitHub Username: %s %n", students.get(userChoice).getName(), userChoice);
+            System.out.format("Current Average: %,.2f%n",students.get(userChoice).getGradeAverage());
+            System.out.println("\n");
         } else {
             System.out.println("I'm sorry, that student does not exist.");
         }
+    }
+
+    private static void checkContinue(HashMap<String, Student> students){
+        boolean userContinue = input.yesNo("Would you like to see another student?");
+
+        if (userContinue){
+            displayStudents(students);
+        }else {
+            System.out.println("Goodbye.");
+        }
+
     }
 
 }
