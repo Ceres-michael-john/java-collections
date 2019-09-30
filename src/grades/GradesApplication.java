@@ -9,12 +9,16 @@
 package grades;
 
 import java.util.HashMap;
+import util.Input;
+
 
 public class GradesApplication {
 
-    public static void main(String[] args) {
-       HashMap<String, Student> students = createStudents();
+    private static Input input = new Input();
 
+    public static void main(String[] args) {
+
+        HashMap<String, Student> students = createStudents();
         displayStudents(students);
 
     }
@@ -50,16 +54,21 @@ public class GradesApplication {
         return students;
     }
 
-
-
-
     private static void displayStudents(HashMap<String, Student> students){
         System.out.println("Here are the GitHub usernames of our students:");
         for(String userName : students.keySet()){
             System.out.print("|" + userName + "| ");
         }
         System.out.println("\n");
-        System.out.println("What student would you like to see more information on?");
+        processUserChoice(input.getString("What student would you like to see more information on?"), students);
+    }
+
+    private static void processUserChoice(String userChoice, HashMap<String, Student> students) {
+        if (students.containsKey(userChoice)) {
+            System.out.println("userChoice = " + userChoice);;
+        } else {
+            System.out.println("I'm sorry, that student does not exist.");
+        }
     }
 
 }
